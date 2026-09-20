@@ -26,4 +26,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  secret: process.env.NEXTAUTH_SECRET || "sfi-polymer-super-secret-key-2026",
 };
