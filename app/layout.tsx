@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className + " bg-slate-50 flex flex-col min-h-screen"}>
         <Providers>
           {/* SFI Red Navbar */}
-          <nav className="bg-[#E60000] text-white shadow-md sticky top-0 z-50">
+          <nav className="bg-[#E60000] text-white shadow-md relative z-50">
             <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
               <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                 {/* SFI Star Placeholder */}
