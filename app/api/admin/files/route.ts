@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { writeFile } from "fs/promises";
-import path from "path";
-import fs from "fs";
+import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
@@ -24,22 +22,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "File and category are required" }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Create uploads directory if it doesn't exist
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    // Generate unique filename
     const uniqueFilename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    const filepath = path.join(uploadDir, uniqueFilename);
-    const fileUrl = `/uploads/${uniqueFilename}`;
-
-    // Save to disk
-    await writeFile(filepath, buffer);
+    
+    // Upload to Vercel Blob
+    const blob = await put(uniqueFilename, file, { access: 'public' });
+    const fileUrl = blob.url;
 
     // Make sure the admin user exists in DB, or use a dummy ID if we don't have one
     // For this prototype, we'll just find the first user or create a dummy one
