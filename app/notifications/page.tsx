@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Bell,
@@ -12,6 +12,7 @@ import {
   CalendarDays,
   Info,
   Inbox,
+  Loader2,
 } from "lucide-react";
 
 type NotificationType = "SFI" | "EXAM" | "DEPARTMENT" | "EVENT" | "GENERAL";
@@ -21,51 +22,8 @@ interface NotificationItem {
   title: string;
   content: string;
   type: NotificationType;
-  postedAt: string;
+  createdAt: string;
 }
-
-const sampleNotifications: NotificationItem[] = [
-  {
-    id: "notif-1",
-    title: "SFI Freshers Welcome & Department Orientation 2026",
-    content:
-      "Join us for the annual orientation program and interactive session organized by the SFI Polymer Subcommittee at the department seminar hall. Meet seniors, faculty members, and discover academic and career support initiatives.",
-    type: "SFI",
-    postedAt: "2 hours ago",
-  },
-  {
-    id: "notif-2",
-    title: "S7 B.Tech Polymer Tech Examination Timetable Published",
-    content:
-      "The official examination schedule for Seventh Semester B.Tech Polymer Science & Rubber Technology regular and supplementary examinations has been published on the CUSAT exam portal. Hall tickets are available for download.",
-    type: "EXAM",
-    postedAt: "Yesterday",
-  },
-  {
-    id: "notif-3",
-    title: "Polymer Processing & Testing Lab Schedule Update",
-    content:
-      "Due to routine calibration of the Universal Testing Machine (UTM) and Brabender Plasticorder, laboratory sessions for batches S5 & S7 are rescheduled to this coming Thursday. Please review revised lab rosters.",
-    type: "DEPARTMENT",
-    postedAt: "3 days ago",
-  },
-  {
-    id: "notif-4",
-    title: "Annual National Polymer Symposium: 'PolyVision 2026'",
-    content:
-      "Registrations and student paper submissions are now open for PolyVision 2026. Keynote sessions will be conducted by senior polymer scientists from VSSC-ISRO and leading tyre manufacturing research teams.",
-    type: "EVENT",
-    postedAt: "5 days ago",
-  },
-  {
-    id: "notif-5",
-    title: "Central Library Semester Book Issue & Renewal Deadline",
-    content:
-      "All students holding semester reference books from the departmental or central library must renew or return their copies by Friday. For book-bank assistance, connect with your SFI batch representative.",
-    type: "GENERAL",
-    postedAt: "1 week ago",
-  },
-];
 
 const typeConfig: Record<
   NotificationType,
@@ -119,11 +77,34 @@ const filterTabs = [
 
 export default function NotificationsPage() {
   const [activeFilter, setActiveFilter] = useState("ALL");
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredNotifications = sampleNotifications.filter((item) => {
+  useEffect(() => {
+    fetch("/api/notifications")
+      .then(res => res.json())
+      .then(data => {
+        setNotifications(Array.isArray(data) ? data : []);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const filteredNotifications = notifications.filter((item) => {
     if (activeFilter === "ALL") return true;
     return item.type === activeFilter;
   });
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
@@ -188,78 +169,77 @@ export default function NotificationsPage() {
 
         {/* Notifications List with Staggered Animations */}
         <div className="space-y-4">
-          <AnimatePresence mode="popLayout">
-            {filteredNotifications.length > 0 ? (
-              filteredNotifications.map((item, index) => {
-                const config = typeConfig[item.type];
-                const IconComponent = config.icon;
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 text-slate-500">
+              <Loader2 className="w-8 h-8 animate-spin mb-4 text-[#E60000]" />
+              <p>Loading latest notifications...</p>
+            </div>
+          ) : (
+            <AnimatePresence mode="popLayout">
+              {filteredNotifications.length > 0 ? (
+                filteredNotifications.map((notification, index) => {
+                  const config = typeConfig[notification.type];
+                  const Icon = config.icon;
 
-                return (
-                  <motion.div
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: index * 0.08,
-                      ease: "easeOut",
-                    }}
-                    whileHover={{ scale: 1.012 }}
-                    className={`bg-white p-6 sm:p-7 rounded-2xl shadow-sm hover:shadow-lg border border-slate-200 border-l-4 ${config.borderClass} transition-shadow duration-300 group`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                      <div className="flex items-center gap-2.5">
-                        <span
-                          className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${config.badgeClass}`}
-                        >
-                          <IconComponent className="w-3.5 h-3.5" />
-                          {item.type}
-                        </span>
+                  return (
+                    <motion.div
+                      key={notification.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
+                      className={`bg-white rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 ${config.borderClass}`}
+                    >
+                      <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+                        <div className="hidden sm:flex flex-shrink-0 mt-1">
+                          <div className={`p-3 rounded-xl ${config.badgeClass}`}>
+                            <Icon className="w-6 h-6" />
+                          </div>
+                        </div>
+
+                        <div className="flex-1 space-y-3">
+                          <div className="flex flex-wrap items-center gap-3">
+                            <span
+                              className={`px-3 py-1 text-xs font-bold tracking-wide rounded-full border ${config.badgeClass}`}
+                            >
+                              {config.label}
+                            </span>
+                            <div className="flex items-center text-slate-500 text-xs font-medium bg-slate-100 px-3 py-1 rounded-full">
+                              <Clock className="w-3.5 h-3.5 mr-1.5" />
+                              {formatDate(notification.createdAt)}
+                            </div>
+                          </div>
+
+                          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                            {notification.title}
+                          </h2>
+
+                          <p className="text-slate-600 leading-relaxed">
+                            {notification.content}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Posted {item.postedAt}</span>
-                      </div>
-                    </div>
-
-                    <h3 className="font-bold text-lg sm:text-xl text-slate-800 group-hover:text-slate-950 transition-colors">
-                      {item.title}
-                    </h3>
-
-                    <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-2.5">
-                      {item.content}
-                    </p>
-                  </motion.div>
-                );
-              })
-            ) : (
-              <motion.div
-                key="empty-state"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-center flex flex-col items-center justify-center space-y-4"
-              >
-                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                  <Inbox className="w-8 h-8" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-slate-800">
-                    No notifications found
-                  </h4>
-                  <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
-                    There are currently no announcements matching the selected filter category.
-                  </p>
-                </div>
-                <button
-                  onClick={() => setActiveFilter("ALL")}
-                  className="mt-2 text-sm font-semibold text-[#E60000] hover:text-[#CC0000] underline underline-offset-4"
+                    </motion.div>
+                  );
+                })
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-white rounded-xl p-12 text-center shadow-sm border border-slate-100 flex flex-col items-center justify-center space-y-4"
                 >
-                  View all notifications
-                </button>
+                  <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mb-4">
+                    <Inbox className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-700">
+                      No Notifications Found
+                    </h3>
+                    <p className="text-slate-500 mt-2 max-w-sm mx-auto">
+                      We couldn't find any announcements matching the selected category.
+                    </p>
+                  </div>
               </motion.div>
             )}
           </AnimatePresence>

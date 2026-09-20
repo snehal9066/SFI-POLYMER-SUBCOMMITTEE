@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface AccordionItem {
   id: number;
@@ -229,6 +231,16 @@ const PRO_TIPS = [
 export default function FresherGuidePage() {
   const [openSections, setOpenSections] = useState<number[]>([1]); // First section open by default
   const [checkedItems, setCheckedItems] = useState<number[]>([1]); // First item checked by default
+  const [pageContent, setPageContent] = useState("");
+
+  useEffect(() => {
+    fetch("/api/content?slug=fresher-guide")
+      .then(res => res.json())
+      .then(data => {
+        if (data.content) setPageContent(data.content);
+      })
+      .catch(err => console.error("Failed to load content", err));
+  }, []);
 
   const toggleSection = (id: number) => {
     setOpenSections((prev) =>
@@ -363,6 +375,16 @@ export default function FresherGuidePage() {
       </section>
 
       <div className="max-w-5xl mx-auto px-6 mt-12 space-y-16">
+        {pageContent && (
+          <section className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-200">
+            <div className="prose prose-slate prose-red max-w-none prose-headings:font-bold prose-a:text-[#E60000]">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {pageContent}
+              </ReactMarkdown>
+            </div>
+          </section>
+        )}
+
         {/* Survival Checklist Section */}
         <section
           id="survival-checklist"
