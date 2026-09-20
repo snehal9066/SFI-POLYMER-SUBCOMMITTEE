@@ -320,6 +320,7 @@ export default function AdminDashboard() {
                 >
                   <option value="fresher-guide">Fresher Guide (Main Content)</option>
                   <option value="higher-studies">Higher Studies (Main Content)</option>
+                  <option value="placements">Placements (Main Content)</option>
                 </select>
               </div>
 

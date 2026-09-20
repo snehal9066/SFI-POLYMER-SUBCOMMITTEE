@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Briefcase,
   TrendingUp,
@@ -221,6 +223,16 @@ const RESOURCES: ResourceItem[] = [
 export default function PlacementsPage() {
   const [expandedResource, setExpandedResource] = useState<string | null>("interview-guides");
   const [downloadState, setDownloadState] = useState<"idle" | "downloading" | "downloaded">("idle");
+  const [pageContent, setPageContent] = useState("");
+
+  useEffect(() => {
+    fetch("/api/content?slug=placements")
+      .then(res => res.json())
+      .then(data => {
+        if (data.content) setPageContent(data.content);
+      })
+      .catch(err => console.error("Failed to load content", err));
+  }, []);
 
   const toggleResource = (id: string) => {
     setExpandedResource((prev) => (prev === id ? null : id));
@@ -431,6 +443,16 @@ export default function PlacementsPage() {
             </motion.div>
           </motion.div>
         </section>
+
+        {pageContent && (
+          <section className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-200">
+            <div className="prose prose-slate prose-red max-w-none prose-headings:font-bold prose-a:text-[#E60000]">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {pageContent}
+              </ReactMarkdown>
+            </div>
+          </section>
+        )}
 
         {/* Top Recruiters Section */}
         <section aria-labelledby="recruiters-heading" className="space-y-6">

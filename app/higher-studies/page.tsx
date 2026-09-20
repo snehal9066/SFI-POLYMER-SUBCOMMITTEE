@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   GraduationCap,
   Microscope,
@@ -23,6 +25,16 @@ import {
 
 export default function HigherStudiesPage() {
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
+  const [pageContent, setPageContent] = useState("");
+
+  useEffect(() => {
+    fetch("/api/content?slug=higher-studies")
+      .then(res => res.json())
+      .then(data => {
+        if (data.content) setPageContent(data.content);
+      })
+      .catch(err => console.error("Failed to load content", err));
+  }, []);
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion((prev) => (prev === index ? null : index));
@@ -338,6 +350,16 @@ export default function HigherStudiesPage() {
             </div>
           </div>
         </section>
+
+        {pageContent && (
+          <section className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-200">
+            <div className="prose prose-slate prose-red max-w-none prose-headings:font-bold prose-a:text-[#E60000]">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {pageContent}
+              </ReactMarkdown>
+            </div>
+          </section>
+        )}
 
         {/* Two Main Sections: M.Tech Programs & Ph.D. Research Cards */}
         <section className="space-y-6">
