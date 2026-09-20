@@ -11,10 +11,10 @@ export async function GET(req: Request) {
     }
 
     const content = await prisma.pageContent.findUnique({
-      where: { pageSlug: slug },
+      where: { page: slug },
     });
 
-    return NextResponse.json(content || { content: "" });
+    return NextResponse.json({ content: content?.body || "" });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch content" }, { status: 500 });
   }

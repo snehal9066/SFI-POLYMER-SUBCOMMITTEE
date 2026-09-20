@@ -22,7 +22,7 @@ interface NotificationItem {
   title: string;
   content: string;
   type: NotificationType;
-  createdAt: string;
+  postedAt: string;
 }
 
 const typeConfig: Record<
@@ -204,9 +204,9 @@ export default function NotificationsPage() {
                             >
                               {config.label}
                             </span>
-                            <div className="flex items-center text-slate-500 text-xs font-medium bg-slate-100 px-3 py-1 rounded-full">
+                              <div className="flex items-center text-slate-500 text-xs font-medium bg-slate-100 px-3 py-1 rounded-full">
                               <Clock className="w-3.5 h-3.5 mr-1.5" />
-                              {formatDate(notification.createdAt)}
+                              {formatDate(notification.postedAt)}
                             </div>
                           </div>
 

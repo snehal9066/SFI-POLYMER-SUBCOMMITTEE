@@ -17,9 +17,9 @@ export async function POST(req: Request) {
     }
 
     const savedContent = await prisma.pageContent.upsert({
-      where: { pageSlug: slug },
-      update: { content },
-      create: { pageSlug: slug, content },
+      where: { page: slug },
+      update: { body: content },
+      create: { page: slug, title: slug, body: content },
     });
 
     return NextResponse.json({ success: true, savedContent });
