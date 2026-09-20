@@ -137,10 +137,10 @@ export default function NotificationsPage() {
           </div>
           {filterTabs.map((tab) => {
             const isActive = activeFilter === tab.value;
-            const count =
-              tab.value === "ALL"
-                ? sampleNotifications.length
-                : sampleNotifications.filter((n) => n.type === tab.value).length;
+              const count =
+                tab.value === "ALL"
+                  ? notifications.length
+                  : notifications.filter((n) => n.type === tab.value).length;
 
             return (
               <button
