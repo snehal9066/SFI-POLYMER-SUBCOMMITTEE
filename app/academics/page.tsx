@@ -5,17 +5,24 @@ import ClientAcademics from "./ClientAcademics";
 export const dynamic = 'force-dynamic';
 
 export default async function AcademicsPage() {
-  // Fetch files from the DB that belong in Academics
-  const files = await prisma.file.findMany({
-    where: {
-      category: {
-        in: ["QUESTION_BANK", "SYLLABUS", "SCHEME"],
+  let files: any[] = [];
+
+  try {
+    // Fetch files from the DB that belong in Academics
+    files = await prisma.file.findMany({
+      where: {
+        category: {
+          in: ["QUESTION_BANK", "SYLLABUS", "SCHEME"],
+        },
       },
-    },
-    orderBy: {
-      uploadedAt: "desc",
-    },
-  });
+      orderBy: {
+        uploadedAt: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch academic files:", error);
+    // On Vercel (serverless), SQLite won't work — show empty state
+  }
 
   return (
     <main className="min-h-screen p-8">
