@@ -25,6 +25,7 @@ export function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-6 items-center font-medium text-sm">
+          <Link href="/" className="hover:text-red-200 transition-colors">Home</Link>
           <Link href="/academics" className="hover:text-red-200 transition-colors">Academics</Link>
           <Link href="/notifications" className="hover:text-red-200 transition-colors">Notifications</Link>
           <Link href="/higher-studies" className="hover:text-red-200 transition-colors">Higher Studies</Link>
@@ -43,6 +44,7 @@ export function Navbar() {
       {/* Mobile Menu Dropdown */}
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-[#E60000] border-t border-red-700 shadow-xl py-4 px-6 flex flex-col gap-4">
+          <Link href="/" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Home</Link>
           <Link href="/academics" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Academics</Link>
           <Link href="/notifications" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Notifications</Link>
           <Link href="/higher-studies" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Higher Studies</Link>
