@@ -1,0 +1,51 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("EDITOR")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  files        File[]
+}
+
+model File {
+  id           String   @id @default(cuid())
+  filename     String
+  url          String
+  mimeType     String
+  semester     String?
+  subject      String?
+  academicYear String?
+  category     String
+  description  String?
+  uploadedById String
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id])
+  uploadedAt   DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  type      String
+  postedAt  DateTime @default(now())
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  page      String   @unique
+  title     String
+  body      String   
+  updatedAt DateTime @updatedAt
+}
