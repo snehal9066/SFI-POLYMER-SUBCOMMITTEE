@@ -10,8 +10,11 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (credentials?.email === "admin@sfi.com" && credentials?.password === "admin123") {
-          return { id: "1", name: "Admin", email: "admin@sfi.com" };
+        const adminEmail = process.env.ADMIN_EMAIL || "admin@sfi.com";
+        const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+
+        if (credentials?.email === adminEmail && credentials?.password === adminPassword) {
+          return { id: "1", name: "Admin", email: adminEmail };
         }
         return null;
       }
