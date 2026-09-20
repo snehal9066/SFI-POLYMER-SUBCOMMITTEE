@@ -29,6 +29,7 @@ export default function AdminDashboard() {
   // Page Content State
   const [contentSlug, setContentSlug] = useState("fresher-guide");
   const [pageContent, setPageContent] = useState("");
+  const [structuredData, setStructuredData] = useState<any>(null);
   const [isSavingContent, setIsSavingContent] = useState(false);
   const [contentMessage, setContentMessage] = useState("");
 
@@ -43,7 +44,10 @@ export default function AdminDashboard() {
     if (activeTab === "CONTENT") {
       fetch(`/api/content?slug=${contentSlug}`)
         .then(res => res.json())
-        .then(data => setPageContent(data.content || ""))
+        .then(data => {
+          setPageContent(data.content || "");
+          setStructuredData(data.data || null);
+        })
         .catch(err => console.error(err));
     }
   }, [activeTab, contentSlug]);
@@ -127,7 +131,7 @@ export default function AdminDashboard() {
       const res = await fetch("/api/admin/content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: contentSlug, content: pageContent }),
+        body: JSON.stringify({ slug: contentSlug, content: pageContent, data: structuredData }),
       });
 
       if (res.ok) {
@@ -325,16 +329,43 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Content (Markdown supported) *</label>
+                <label className="text-sm font-medium text-slate-700">Content (Markdown supported)</label>
                 <textarea 
-                  rows={15}
+                  rows={8}
                   className="w-full border rounded-md px-3 py-2 outline-none focus:border-[#E60000] font-mono text-sm"
                   value={pageContent}
                   onChange={(e) => setPageContent(e.target.value)}
                   placeholder="# Welcome to SFI Polymer..."
-                  required
                 />
               </div>
+
+              {(contentSlug === "placements" || contentSlug === "higher-studies" || contentSlug === "fresher-guide") && (
+                <div className="space-y-4 border-t border-slate-200 pt-6 mt-6">
+                  <h3 className="font-bold text-lg text-slate-800">Advanced Template Data (JSON)</h3>
+                  <p className="text-sm text-slate-500">Edit the underlying structured data for the interactive grids and accordions here.</p>
+                  
+                  <div className="space-y-2">
+                    <textarea 
+                      rows={12}
+                      className={`w-full border rounded-md px-3 py-2 outline-none font-mono text-sm ${
+                        structuredData !== null && typeof structuredData !== 'object' ? 'border-red-500' : 'focus:border-[#E60000]'
+                      }`}
+                      value={typeof structuredData === 'string' ? structuredData : JSON.stringify(structuredData || {}, null, 2)}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          setStructuredData(parsed);
+                        } catch (err) {
+                          setStructuredData(e.target.value); // keep raw string so they can fix it
+                        }
+                      }}
+                    />
+                    {typeof structuredData === 'string' && (
+                      <p className="text-xs text-red-500 font-medium">Invalid JSON format. Please fix any syntax errors before saving.</p>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {contentMessage && (
                 <div className={`p-3 rounded-md text-sm ${contentMessage.includes("Error") || contentMessage.includes("Failed") ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"}`}>

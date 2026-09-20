@@ -224,12 +224,14 @@ export default function PlacementsPage() {
   const [expandedResource, setExpandedResource] = useState<string | null>("interview-guides");
   const [downloadState, setDownloadState] = useState<"idle" | "downloading" | "downloaded">("idle");
   const [pageContent, setPageContent] = useState("");
+  const [structuredData, setStructuredData] = useState<any>(null);
 
   useEffect(() => {
     fetch("/api/content?slug=placements")
       .then(res => res.json())
       .then(data => {
         if (data.content) setPageContent(data.content);
+        if (data.data) setStructuredData(data.data);
       })
       .catch(err => console.error("Failed to load content", err));
   }, []);
@@ -481,14 +483,25 @@ export default function PlacementsPage() {
             viewport={{ once: true, margin: "-50px" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {RECRUITERS.map((company) => (
-              <motion.div
-                key={company.name}
-                variants={itemVariants}
-                whileHover={{ scale: 1.04, y: -4 }}
-                transition={{ type: "spring" as const, stiffness: 350, damping: 22 }}
-                className="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-[#E60000] transition-all flex flex-col justify-between group cursor-default relative overflow-hidden"
-              >
+            {(structuredData?.recruiters || RECRUITERS.map(r => r.name)).map((companyName: string) => {
+              // Find matching hardcoded data to preserve styles/roles if it exists, otherwise generate basic style
+              const matched = RECRUITERS.find(r => r.name === companyName);
+              const company = matched || {
+                name: companyName,
+                sector: "Core Industry Partner",
+                tag: "Recruiting Partner",
+                roles: ["Engineer", "R&D", "Trainee"],
+                initials: companyName.substring(0, 3).toUpperCase()
+              };
+
+              return (
+                <motion.div
+                  key={company.name}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.04, y: -4 }}
+                  transition={{ type: "spring" as const, stiffness: 350, damping: 22 }}
+                  className="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-[#E60000] transition-all flex flex-col justify-between group cursor-default relative overflow-hidden"
+                >
                 {/* Top Accent Strip */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E60000] to-rose-400 opacity-80 group-hover:h-1.5 transition-all" />
 
@@ -537,7 +550,7 @@ export default function PlacementsPage() {
                   <span>PSRT Alumni Network</span>
                 </div>
               </motion.div>
-            ))}
+            ); })}
           </motion.div>
         </section>
 

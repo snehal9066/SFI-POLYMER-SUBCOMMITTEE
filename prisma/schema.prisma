@@ -47,5 +47,6 @@ model PageContent {
   page      String   @unique
   title     String
   body      String   
+  data      Json?
   updatedAt DateTime @updatedAt
 }
