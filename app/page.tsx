@@ -20,47 +20,6 @@ const floatingParticles = [
   { id: 12, char: "✦", size: "text-base", top: "55%", left: "5%", delay: 1.7, duration: 8.2, xRange: [0, 9, 0], yRange: [0, -26, 0] },
 ];
 
-// Counter component for stats bar
-function StatCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !isInView) return;
-
-    let startTime: number | null = null;
-    const duration = 1600;
-
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      // easeOutExpo function for smooth slowing down at end
-      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setCount(Math.floor(ease * target));
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        setCount(target);
-      }
-    };
-
-    requestAnimationFrame(step);
-  }, [mounted, isInView, target]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {mounted ? count : target}
-      {suffix}
-    </span>
-  );
-}
 
 // 6 Cards specification
 const cardsData = [
@@ -256,57 +215,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ----------------- Stats Bar ----------------- */}
-      <section className="-mt-12 sm:-mt-14 md:-mt-16 relative z-20 max-w-5xl mx-auto px-6 w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-slate-100 p-6 sm:p-8"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
-            {/* 500+ Resources */}
-            <div className="flex flex-col items-center text-center px-4 pt-2 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-[#E60000] tracking-tight mb-1">
-                <StatCounter target={500} suffix="+" />
-              </div>
-              <div className="font-bold text-slate-800 text-lg sm:text-xl">
-                Resources
-              </div>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-[220px]">
-                Question banks, lecture notes, textbook references & schemes
-              </p>
-            </div>
-
-            {/* 85% Placement */}
-            <div className="flex flex-col items-center text-center px-4 pt-6 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-[#E60000] tracking-tight mb-1">
-                <StatCounter target={85} suffix="%" />
-              </div>
-              <div className="font-bold text-slate-800 text-lg sm:text-xl">
-                Placement
-              </div>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-[220px]">
-                Strong recruitment record across leading tyre & polymer industries
-              </p>
-            </div>
-
-            {/* 8 Semesters */}
-            <div className="flex flex-col items-center text-center px-4 pt-6 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-[#E60000] tracking-tight mb-1">
-                <StatCounter target={8} suffix="" />
-              </div>
-              <div className="font-bold text-slate-800 text-lg sm:text-xl">
-                Semesters
-              </div>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-[220px]">
-                Structured module coverage from S1 through S8 for B.Tech PSRT
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+      
 
       {/* ----------------- Navigation Cards Grid ----------------- */}
       <section className="max-w-6xl w-full px-6 py-16 sm:py-20 relative z-10">
