@@ -243,6 +243,7 @@ export default function NotificationsPage() {
               </motion.div>
             )}
           </AnimatePresence>
+          )}
         </div>
       </div>
     </main>
