@@ -15,7 +15,7 @@ import {
   Loader2,
 } from "lucide-react";
 
-type NotificationType = "SFI" | "EXAM" | "DEPARTMENT" | "EVENT" | "GENERAL";
+type NotificationType = "SFI" | "EXAM" | "DEPARTMENT" | "EVENT" | "GENERAL" | "INFO" | "URGENT";
 
 interface NotificationItem {
   id: string;
@@ -59,10 +59,22 @@ const typeConfig: Record<
     label: "EVENT",
   },
   GENERAL: {
-    borderClass: "border-l-gray-500",
-    badgeClass: "bg-gray-100 text-gray-700 border-gray-200",
+    borderClass: "border-l-slate-400",
+    badgeClass: "bg-slate-100 text-slate-700 border-slate-200",
     icon: Info,
     label: "GENERAL",
+  },
+  INFO: {
+    borderClass: "border-l-sky-500",
+    badgeClass: "bg-sky-50 text-sky-700 border-sky-200",
+    icon: Info,
+    label: "INFO",
+  },
+  URGENT: {
+    borderClass: "border-l-amber-500",
+    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
+    icon: Bell,
+    label: "URGENT",
   },
 };
 
@@ -177,9 +189,9 @@ export default function NotificationsPage() {
           ) : (
             <AnimatePresence mode="popLayout">
               {filteredNotifications.length > 0 ? (
-                filteredNotifications.map((notification, index) => {
-                  const config = typeConfig[notification.type];
-                  const Icon = config.icon;
+                  filteredNotifications.map((notification, index) => {
+                    const config = typeConfig[notification.type] || typeConfig.GENERAL;
+                    const Icon = config.icon;
 
                   return (
                     <motion.div
