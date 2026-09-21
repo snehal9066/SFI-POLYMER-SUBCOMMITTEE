@@ -5,12 +5,12 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 const floatingParticles = [
-  { id: 1, char: "?", size: "text-2xl", top: "15%", left: "10%", delay: 0, duration: 4, xRange: [0, 15, 0], yRange: [0, -25, 0] },
-  { id: 2, char: "??", size: "text-sm", top: "25%", left: "85%", delay: 1.2, duration: 5, xRange: [0, -15, 0], yRange: [0, -20, 0] },
-  { id: 3, char: "?", size: "text-xl", top: "70%", left: "12%", delay: 0.8, duration: 6, xRange: [0, 12, 0], yRange: [0, -30, 0] },
-  { id: 4, char: "??", size: "text-base", top: "30%", left: "75%", delay: 2, duration: 4.5, xRange: [0, -20, 0], yRange: [0, 20, 0] },
-  { id: 5, char: "?", size: "text-sm", top: "65%", left: "88%", delay: 1.5, duration: 5.5, xRange: [0, 15, 0], yRange: [0, -20, 0] },
-  { id: 6, char: "??", size: "text-2xl", top: "40%", left: "18%", delay: 0.4, duration: 4.2, xRange: [0, 10, 0], yRange: [0, -15, 0] },
+  { id: 1, type: "circle", size: "w-3 h-3", top: "15%", left: "10%", delay: 0, duration: 8, xRange: [0, 15, 0], yRange: [0, -25, 0] },
+  { id: 2, type: "dot", size: "w-1 h-1", top: "25%", left: "85%", delay: 1.2, duration: 10, xRange: [0, -15, 0], yRange: [0, -20, 0] },
+  { id: 3, type: "circle", size: "w-4 h-4", top: "70%", left: "12%", delay: 0.8, duration: 12, xRange: [0, 12, 0], yRange: [0, -30, 0] },
+  { id: 4, type: "plus", size: "w-5 h-5", top: "30%", left: "75%", delay: 2, duration: 9, xRange: [0, -20, 0], yRange: [0, 20, 0] },
+  { id: 5, type: "dot", size: "w-2 h-2", top: "65%", left: "88%", delay: 1.5, duration: 11, xRange: [0, 15, 0], yRange: [0, -20, 0] },
+  { id: 6, type: "plus", size: "w-6 h-6", top: "40%", left: "18%", delay: 0.4, duration: 8.5, xRange: [0, 10, 0], yRange: [0, -15, 0] },
 ];
 
 const cardsData = [
@@ -134,7 +134,13 @@ export default function Home() {
             className={`absolute ${p.size} text-white/40 pointer-events-none select-none`}
             style={{ top: p.top, left: p.left }}
           >
-            {p.char}
+            {p.type === "circle" && <div className="w-full h-full rounded-full border border-white/30" />}
+            {p.type === "dot" && <div className="w-full h-full rounded-full bg-white/40" />}
+            {p.type === "plus" && (
+              <svg className="w-full h-full text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            )}
           </motion.div>
         ))}
 
