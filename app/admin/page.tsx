@@ -33,6 +33,9 @@ export default function AdminDashboard() {
   const [isSavingContent, setIsSavingContent] = useState(false);
   const [contentMessage, setContentMessage] = useState("");
 
+  const [filesList, setFilesList] = useState<any[]>([]);
+  const [notificationsList, setNotificationsList] = useState<any[]>([]);
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -48,6 +51,16 @@ export default function AdminDashboard() {
           setPageContent(data.content || "");
           setStructuredData(data.data || null);
         })
+        .catch(err => console.error(err));
+    } else if (activeTab === "RESOURCES") {
+      fetch("/api/admin/files")
+        .then(res => res.json())
+        .then(data => setFilesList(data.files || []))
+        .catch(err => console.error(err));
+    } else if (activeTab === "NOTIFICATIONS") {
+      fetch("/api/notifications")
+        .then(res => res.json())
+        .then(data => setNotificationsList(data.notifications || []))
         .catch(err => console.error(err));
     }
   }, [activeTab, contentSlug]);
@@ -144,6 +157,34 @@ export default function AdminDashboard() {
       setContentMessage("Failed to save content.");
     } finally {
       setIsSavingContent(false);
+    }
+  };
+
+  const handleDeleteFile = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this file?")) return;
+    try {
+      const res = await fetch(`/api/admin/files?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setFilesList(filesList.filter(f => f.id !== id));
+      } else {
+        alert("Failed to delete file.");
+      }
+    } catch (e) {
+      alert("Error deleting file.");
+    }
+  };
+
+  const handleDeleteNotification = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this notification?")) return;
+    try {
+      const res = await fetch(`/api/admin/notifications?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setNotificationsList(notificationsList.filter(n => n.id !== id));
+      } else {
+        alert("Failed to delete notification.");
+      }
+    } catch (e) {
+      alert("Error deleting notification.");
     }
   };
 
@@ -247,6 +288,30 @@ export default function AdminDashboard() {
                 {isUploading ? "Uploading..." : "Upload File"}
               </button>
             </form>
+
+            <div className="mt-8 pt-8 border-t border-slate-200">
+              <h3 className="font-bold text-lg mb-4 text-slate-800">Manage Uploaded Files</h3>
+              {filesList.length === 0 ? (
+                <p className="text-sm text-slate-500">No files uploaded yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {filesList.map(f => (
+                    <div key={f.id} className="flex items-center justify-between p-3 border border-slate-200 rounded-md bg-slate-50">
+                      <div>
+                        <p className="font-medium text-sm text-slate-800">{f.filename}</p>
+                        <p className="text-xs text-slate-500">{f.category} {f.semester ? `· ${f.semester}` : ''}</p>
+                      </div>
+                      <button 
+                        onClick={() => handleDeleteFile(f.id)}
+                        className="text-xs text-red-600 hover:text-red-800 font-medium px-3 py-1 border border-red-200 bg-white rounded-md hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
         )}
 
@@ -307,6 +372,30 @@ export default function AdminDashboard() {
                 {isPostingNotif ? "Posting..." : "Post Notification"}
               </button>
             </form>
+
+            <div className="mt-8 pt-8 border-t border-slate-200">
+              <h3 className="font-bold text-lg mb-4 text-slate-800">Manage Notifications</h3>
+              {notificationsList.length === 0 ? (
+                <p className="text-sm text-slate-500">No notifications posted yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {notificationsList.map(n => (
+                    <div key={n.id} className="flex items-center justify-between p-3 border border-slate-200 rounded-md bg-slate-50">
+                      <div>
+                        <p className="font-medium text-sm text-slate-800">{n.title}</p>
+                        <p className="text-xs text-slate-500">{n.type} · {new Date(n.postedAt).toLocaleDateString()}</p>
+                      </div>
+                      <button 
+                        onClick={() => handleDeleteNotification(n.id)}
+                        className="text-xs text-red-600 hover:text-red-800 font-medium px-3 py-1 border border-red-200 bg-white rounded-md hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
         )}
 

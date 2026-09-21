@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 
 export async function POST(req: Request) {
   try {
@@ -58,8 +58,55 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, file: savedFile });
   } catch (error: any) {
     console.error("Upload error:", error);
-    // Return the specific error message to help debug
     const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json({ error: `Upload failed: ${errorMessage}` }, { status: 500 });
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const files = await prisma.file.findMany({
+      orderBy: { uploadedAt: "desc" },
+    });
+
+    return NextResponse.json({ files });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch files" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing file ID" }, { status: 400 });
+    }
+
+    const file = await prisma.file.findUnique({ where: { id } });
+    if (!file) {
+      return NextResponse.json({ error: "File not found" }, { status: 404 });
+    }
+
+    if (file.url) {
+      await del(file.url);
+    }
+
+    await prisma.file.delete({ where: { id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to delete file" }, { status: 500 });
   }
 }
