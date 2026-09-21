@@ -453,7 +453,7 @@ export default function FresherGuidePage() {
               },
             }}
           >
-            {checklistData.map((item, index) => {
+            {checklistData.map((item: any, index: number) => {
               const isChecked = checkedItems.includes(item.id);
               return (
                 <motion.div
@@ -569,7 +569,7 @@ export default function FresherGuidePage() {
           </div>
 
           <div className="space-y-4">
-            {accordionData.map((item) => {
+            {accordionData.map((item: any) => {
               const isOpen = openSections.includes(item.id);
 
               return (
@@ -660,7 +660,7 @@ export default function FresherGuidePage() {
                           )}
 
                           <div className="grid md:grid-cols-2 gap-4 mt-2">
-                            {item.content.points.map((pt, idx) => (
+                            {item.content.points.map((pt: any, idx: number) => (
                               <div
                                 key={idx}
                                 className="bg-white/80 p-4 rounded-xl border border-slate-200/80 shadow-2xs hover:border-red-200 transition-colors"
@@ -707,7 +707,7 @@ export default function FresherGuidePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tipsData.map((tip, idx) => (
+            {tipsData.map((tip: any, idx: number) => (
               <motion.div
                 key={idx}
                 whileHover={{ y: -5 }}
