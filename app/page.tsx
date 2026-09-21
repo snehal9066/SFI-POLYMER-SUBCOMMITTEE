@@ -83,7 +83,7 @@ export default function Home() {
       y: 0,
       scale: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 10,
       },
@@ -219,7 +219,7 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       whileHover={{ scale: 1.03, y: -5 }}
-                      transition={{ duration: 0.4, delay: idx * 0.1, type: "spring", stiffness: 100 }}
+                      transition={{ duration: 0.4, delay: idx * 0.1, type: "spring" as const, stiffness: 100 }}
                       className="h-full bg-white rounded-2xl shadow-md hover:shadow-2xl border border-slate-200 hover:border-[#E60000]/50 p-7 sm:p-8 flex flex-col justify-between transition-all relative overflow-hidden"
                     >
                       <motion.div 
@@ -267,7 +267,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     whileHover={{ scale: 1.03, y: -5 }}
-                    transition={{ duration: 0.4, delay: idx * 0.1, type: "spring", stiffness: 100 }}
+                    transition={{ duration: 0.4, delay: idx * 0.1, type: "spring" as const, stiffness: 100 }}
                     className="h-full bg-gradient-to-br from-[#E60000] to-[#990000] rounded-2xl shadow-xl hover:shadow-2xl p-7 sm:p-8 flex flex-col justify-between relative overflow-hidden"
                   >
                     <motion.div 
