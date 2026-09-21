@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 export function Navbar() {
@@ -14,12 +15,12 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-          <div className="w-8 h-8 flex items-center justify-center bg-white text-[#E60000] rounded-full font-black text-xl">
-            ★
+          <div className="bg-white px-2 py-1 rounded-md shadow-sm flex items-center justify-center">
+            <Image src="/psrt-logo.webp" alt="PSRT Logo" width={80} height={30} className="h-8 w-auto object-contain" priority />
           </div>
           <div className="font-bold text-lg leading-tight tracking-wide">
             SFI POLYMER <br />
-            <span className="text-sm font-medium text-red-100">SUBCOMMITTEE PSRT</span>
+            <span className="text-sm font-medium text-red-100">SUBCOMMITTEE</span>
           </div>
         </Link>
 
