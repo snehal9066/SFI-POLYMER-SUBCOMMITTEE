@@ -459,7 +459,7 @@ export default function HigherStudiesPage() {
                     variants={containerVariants}
                     className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-700"
                   >
-                    {mtechSpecializations.map((spec, index) => (
+                    {mtechSpecializations.map((spec: any, index: number) => (
                       <motion.li
                         key={index}
                         variants={itemVariants}
@@ -534,7 +534,7 @@ export default function HigherStudiesPage() {
                     variants={containerVariants}
                     className="flex flex-wrap gap-2"
                   >
-                    {phdFocusAreas.map((area, index) => (
+                    {phdFocusAreas.map((area: any, index: number) => (
                       <motion.span
                         key={index}
                         variants={tagVariants}
@@ -614,7 +614,7 @@ export default function HigherStudiesPage() {
             viewport={{ once: true, margin: "-40px" }}
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            {scholarshipList.map((item, index) => (
+            {scholarshipList.map((item: any, index: number) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
@@ -744,7 +744,7 @@ export default function HigherStudiesPage() {
                         className="overflow-hidden border-t border-slate-100 bg-slate-50/60"
                       >
                         <div className="p-5 sm:p-6 space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed">
-                          {tip.details.map((point, pIdx) => (
+                          {tip.details.map((point: any, pIdx: number) => (
                             <div key={pIdx} className="flex items-start gap-3">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#E60000] mt-2 shrink-0" />
                               <p>{point}</p>
