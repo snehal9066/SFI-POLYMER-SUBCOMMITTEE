@@ -1,23 +1,23 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 const floatingParticles = [
-  { id: 1, char: "✨", size: "text-2xl", top: "15%", left: "10%", delay: 0, duration: 4, xRange: [0, 15, 0], yRange: [0, -25, 0] },
-  { id: 2, char: "🔬", size: "text-sm", top: "25%", left: "85%", delay: 1.2, duration: 5, xRange: [0, -15, 0], yRange: [0, -20, 0] },
-  { id: 3, char: "✨", size: "text-xl", top: "70%", left: "12%", delay: 0.8, duration: 6, xRange: [0, 12, 0], yRange: [0, -30, 0] },
-  { id: 4, char: "🧪", size: "text-base", top: "30%", left: "75%", delay: 2, duration: 4.5, xRange: [0, -20, 0], yRange: [0, 20, 0] },
-  { id: 5, char: "✨", size: "text-sm", top: "65%", left: "88%", delay: 1.5, duration: 5.5, xRange: [0, 15, 0], yRange: [0, -20, 0] },
-  { id: 6, char: "⚙️", size: "text-2xl", top: "40%", left: "18%", delay: 0.4, duration: 4.2, xRange: [0, 10, 0], yRange: [0, -15, 0] },
+  { id: 1, char: "?", size: "text-2xl", top: "15%", left: "10%", delay: 0, duration: 4, xRange: [0, 15, 0], yRange: [0, -25, 0] },
+  { id: 2, char: "??", size: "text-sm", top: "25%", left: "85%", delay: 1.2, duration: 5, xRange: [0, -15, 0], yRange: [0, -20, 0] },
+  { id: 3, char: "?", size: "text-xl", top: "70%", left: "12%", delay: 0.8, duration: 6, xRange: [0, 12, 0], yRange: [0, -30, 0] },
+  { id: 4, char: "??", size: "text-base", top: "30%", left: "75%", delay: 2, duration: 4.5, xRange: [0, -20, 0], yRange: [0, 20, 0] },
+  { id: 5, char: "?", size: "text-sm", top: "65%", left: "88%", delay: 1.5, duration: 5.5, xRange: [0, 15, 0], yRange: [0, -20, 0] },
+  { id: 6, char: "??", size: "text-2xl", top: "40%", left: "18%", delay: 0.4, duration: 4.2, xRange: [0, 10, 0], yRange: [0, -15, 0] },
 ];
 
 const cardsData = [
   {
     title: "Academics",
     href: "/academics",
-    emoji: "📚",
+    emoji: "??",
     badge: "Syllabus & PYQs",
     desc: "Explore previous year question banks, complete course schemes, semester syllabi, and curated study notes for PSRT.",
     isLink: true,
@@ -25,7 +25,7 @@ const cardsData = [
   {
     title: "Notifications",
     href: "/notifications",
-    emoji: "📢",
+    emoji: "??",
     badge: "Live Notices",
     desc: "Stay updated with official department announcements, examination circulars, timetable schedules, and university news.",
     isLink: true,
@@ -33,7 +33,7 @@ const cardsData = [
   {
     title: "Higher Studies",
     href: "/higher-studies",
-    emoji: "🎓",
+    emoji: "??",
     badge: "GATE & Research",
     desc: "Discover preparation pathways for GATE, premier M.Tech programs, Ph.D. positions abroad, and research fellowships.",
     isLink: true,
@@ -41,7 +41,7 @@ const cardsData = [
   {
     title: "Placements",
     href: "/placements",
-    emoji: "💼",
+    emoji: "??",
     badge: "Career Guidance",
     desc: "Access recruiter profiles, past placement statistics, core tyre & polymer interview experiences, and career insights.",
     isLink: true,
@@ -49,7 +49,7 @@ const cardsData = [
   {
     title: "Fresher Guide",
     href: "/fresher-guide",
-    emoji: "🧭",
+    emoji: "??",
     badge: "PSRT Orientation",
     desc: "Essential department introduction for first years: laboratory protocols, campus navigation, faculty advice, and survival tips.",
     isLink: true,
@@ -57,7 +57,7 @@ const cardsData = [
   {
     title: "Join the Movement",
     href: null,
-    emoji: "✊",
+    emoji: "?",
     badge: "Student Unity",
     desc: "Stand together with the SFI Polymer Subcommittee to protect student welfare, academic rights, and progressive campus democracy.",
     isLink: false,
@@ -131,7 +131,7 @@ export default function Home() {
               ease: "easeInOut",
               delay: p.delay,
             }}
-            className={\bsolute \ text-white/40 pointer-events-none select-none\}
+            className={`absolute ${p.size} text-white/40 pointer-events-none select-none`}
             style={{ top: p.top, left: p.left }}
           >
             {p.char}
@@ -312,3 +312,4 @@ export default function Home() {
     </main>
   );
 }
+
