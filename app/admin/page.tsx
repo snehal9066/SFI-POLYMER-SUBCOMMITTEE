@@ -60,7 +60,7 @@ export default function AdminDashboard() {
     } else if (activeTab === "NOTIFICATIONS") {
       fetch("/api/notifications")
         .then(res => res.json())
-        .then(data => setNotificationsList(data.notifications || []))
+        .then(data => setNotificationsList(Array.isArray(data) ? data : []))
         .catch(err => console.error(err));
     }
   }, [activeTab, contentSlug]);
@@ -90,11 +90,15 @@ export default function AdminDashboard() {
       });
 
       if (res.ok) {
+        const data = await res.json();
         setUploadMessage("File uploaded successfully!");
         setFile(null);
         setSubject("");
         setDescription("");
         (document.getElementById("fileInput") as HTMLInputElement).value = "";
+        if (data.file) {
+          setFilesList([data.file, ...filesList]);
+        }
       } else {
         const data = await res.json();
         setUploadMessage(`Error: ${data.error}`);
@@ -121,9 +125,13 @@ export default function AdminDashboard() {
       });
 
       if (res.ok) {
+        const data = await res.json();
         setNotifMessage("Notification posted successfully!");
         setNotifTitle("");
         setNotifContent("");
+        if (data.notification) {
+          setNotificationsList([data.notification, ...notificationsList]);
+        }
       } else {
         const data = await res.json();
         setNotifMessage(`Error: ${data.error}`);
