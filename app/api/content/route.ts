@@ -22,8 +22,21 @@ export async function GET(req: Request) {
        };
     } else if (slug === "higher-studies") {
        defaultData = {
-          universities: ["University of Akron (USA)", "University of Massachusetts Amherst (USA)", "Max Planck Institute (Germany)", "Kyushu University (Japan)"],
-          exams: ["GATE (Engineering Sciences)", "CSIR NET (Chemical Sciences)", "GRE", "TOEFL / IELTS"]
+          mtech: [
+             "Polymer Processing & Tool/Mould Engineering",
+             "Rubber Compounding & Tyre Manufacturing Technology",
+             "Advanced Polymer Nanocomposites & Hybrid Blends"
+          ],
+          phd: [
+             { "name": "Nanocomposites & Carbon Nanotubes", "code": "NC-01" },
+             { "name": "Smart & Stimuli-Responsive Polymers", "code": "SP-02" }
+          ],
+          scholarships: [
+             { "emoji": "💰", "title": "CSIR-UGC NET JRF", "badge": "National Fellowship", "stipend": "₹37,000 / mo + HRA", "details": "Premier national fellowship awarded through the Joint CSIR-UGC NET Chemical Sciences / Physical Sciences exam." }
+          ],
+          tips: [
+             { "title": "GATE Strategy", "summary": "Choosing XE vs CY Discipline", "details": ["Engineering Sciences (XE) has Polymer Science (F) as a section.", "Chemistry (CY) is beneficial if your core organic chemistry is strong."] }
+          ]
        };
     } else if (slug === "fresher-guide") {
        defaultData = {

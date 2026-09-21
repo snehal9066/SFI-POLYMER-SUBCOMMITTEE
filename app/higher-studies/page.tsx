@@ -26,12 +26,14 @@ import {
 export default function HigherStudiesPage() {
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
   const [pageContent, setPageContent] = useState("");
+  const [structuredData, setStructuredData] = useState<any>(null);
 
   useEffect(() => {
     fetch("/api/content?slug=higher-studies")
       .then(res => res.json())
       .then(data => {
         if (data.content) setPageContent(data.content);
+        if (data.data) setStructuredData(data.data);
       })
       .catch(err => console.error("Failed to load content", err));
   }, []);
@@ -70,7 +72,7 @@ export default function HigherStudiesPage() {
     },
   };
 
-  const mtechSpecializations = [
+  const MTECH = [
     "Polymer Processing & Tool/Mould Engineering",
     "Rubber Compounding & Tyre Manufacturing Technology",
     "Advanced Polymer Nanocomposites & Hybrid Blends",
@@ -79,7 +81,7 @@ export default function HigherStudiesPage() {
     "Surface Coatings, Adhesives & Specialty Sealants",
   ];
 
-  const phdFocusAreas = [
+  const PHD = [
     { name: "Nanocomposites & Carbon Nanotubes", code: "NC-01" },
     { name: "Smart & Stimuli-Responsive Polymers", code: "SP-02" },
     { name: "Rubber Technology & Green Elastomers", code: "RT-03" },
@@ -90,7 +92,7 @@ export default function HigherStudiesPage() {
     { name: "Aerospace Composites & High-Temp Resins", code: "AC-08" },
   ];
 
-  const scholarshipList = [
+  const SCHOLARSHIPS = [
     {
       emoji: "🏆",
       title: "CSIR-UGC NET JRF",
@@ -123,7 +125,7 @@ export default function HigherStudiesPage() {
     },
   ];
 
-  const examTips = [
+  const EXAMTIPS = [
     {
       title: "GATE Strategy: Choosing XE vs CY Discipline",
       summary:
@@ -211,6 +213,11 @@ export default function HigherStudiesPage() {
       pillBg: "bg-red-900/10 text-[#990000]",
     },
   ];
+
+  const mtechSpecializations = structuredData?.mtech || MTECH;
+  const phdFocusAreas = structuredData?.phd || PHD;
+  const scholarshipList = structuredData?.scholarships || SCHOLARSHIPS;
+  const examTips = structuredData?.tips || EXAMTIPS;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/60 py-10 px-4 sm:px-6 lg:px-8">
@@ -685,7 +692,7 @@ export default function HigherStudiesPage() {
             viewport={{ once: true, margin: "-40px" }}
             className="space-y-3"
           >
-            {examTips.map((tip, index) => {
+            {examTips.map((tip: any, index: number) => {
               const isOpen = openAccordion === index;
               return (
                 <motion.div
