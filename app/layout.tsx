@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Link from "next/link";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
 export const metadata: Metadata = {
   title: "SFI Polymer Subcommittee",
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " bg-slate-50 flex flex-col min-h-screen"}>
+      <body className={plusJakarta.className + " bg-slate-50 flex flex-col min-h-screen text-slate-900 selection:bg-red-200 selection:text-red-900"}>
         <Providers>
           <Navbar />
 

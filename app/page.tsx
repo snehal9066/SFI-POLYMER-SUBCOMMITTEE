@@ -1,27 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
-// Floating decorative particle items
-const floatingParticles = [
-  { id: 1, char: "★", size: "text-2xl", top: "12%", left: "8%", delay: 0, duration: 6, xRange: [0, 14, 0], yRange: [0, -22, 0] },
-  { id: 2, char: "✦", size: "text-sm", top: "20%", left: "88%", delay: 1.2, duration: 7, xRange: [0, -12, 0], yRange: [0, -18, 0] },
-  { id: 3, char: "★", size: "text-xl", top: "68%", left: "10%", delay: 0.8, duration: 8, xRange: [0, 10, 0], yRange: [0, -24, 0] },
-  { id: 4, char: "✧", size: "text-base", top: "26%", left: "76%", delay: 2, duration: 6.5, xRange: [0, -16, 0], yRange: [0, 18, 0] },
-  { id: 5, char: "★", size: "text-sm", top: "62%", left: "86%", delay: 1.5, duration: 7.5, xRange: [0, 12, 0], yRange: [0, -15, 0] },
-  { id: 6, char: "•", size: "text-2xl", top: "38%", left: "16%", delay: 0.4, duration: 5.2, xRange: [0, 8, 0], yRange: [0, -14, 0] },
-  { id: 7, char: "✦", size: "text-xs", top: "16%", left: "36%", delay: 2.2, duration: 6.2, xRange: [0, -10, 0], yRange: [0, 16, 0] },
-  { id: 8, char: "•", size: "text-xl", top: "78%", left: "74%", delay: 1.8, duration: 5.6, xRange: [0, -14, 0], yRange: [0, -20, 0] },
-  { id: 9, char: "★", size: "text-lg", top: "82%", left: "30%", delay: 0.6, duration: 7.2, xRange: [0, 16, 0], yRange: [0, -18, 0] },
-  { id: 10, char: "✧", size: "text-sm", top: "48%", left: "92%", delay: 2.5, duration: 6.4, xRange: [0, -9, 0], yRange: [0, 22, 0] },
-  { id: 11, char: "•", size: "text-lg", top: "10%", left: "64%", delay: 1.1, duration: 5.9, xRange: [0, 11, 0], yRange: [0, -16, 0] },
-  { id: 12, char: "✦", size: "text-base", top: "55%", left: "5%", delay: 1.7, duration: 8.2, xRange: [0, 9, 0], yRange: [0, -26, 0] },
-];
-
-
-// 6 Cards specification
 const cardsData = [
   {
     title: "Academics",
@@ -34,7 +16,7 @@ const cardsData = [
   {
     title: "Notifications",
     href: "/notifications",
-    emoji: "🔔",
+    emoji: "📢",
     badge: "Live Notices",
     desc: "Stay updated with official department announcements, examination circulars, timetable schedules, and university news.",
     isLink: true,
@@ -58,7 +40,7 @@ const cardsData = [
   {
     title: "Fresher Guide",
     href: "/fresher-guide",
-    emoji: "🗺️",
+    emoji: "🧭",
     badge: "PSRT Orientation",
     desc: "Essential department introduction for first years: laboratory protocols, campus navigation, faculty advice, and survival tips.",
     isLink: true,
@@ -74,7 +56,6 @@ const cardsData = [
 ];
 
 export default function Home() {
-  // Staggered animations container for Hero
   const heroContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -99,278 +80,163 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center w-full min-h-screen bg-slate-50 text-slate-800 selection:bg-[#E60000] selection:text-white">
-      {/* ----------------- Hero Section ----------------- */}
-      <section className="relative w-full bg-gradient-to-br from-[#E60000] via-[#CC0000] to-[#990000] text-white pt-20 pb-28 sm:pt-24 sm:pb-32 md:pt-28 md:pb-36 px-6 flex flex-col items-center justify-center overflow-hidden shadow-xl">
-        {/* Animated Radial Ambient Glows */}
-        <motion.div
-          animate={{
-            scale: [1, 1.25, 1],
-            opacity: [0.25, 0.45, 0.25],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute -top-24 -left-24 w-96 h-96 bg-red-400/35 rounded-full blur-3xl pointer-events-none"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none"
-        />
+    <main className="flex flex-col items-center w-full min-h-screen bg-slate-50 text-slate-800 selection:bg-red-200 selection:text-red-900">
+      <section className="relative w-full bg-white text-slate-900 pt-20 pb-28 sm:pt-28 sm:pb-32 md:pt-36 md:pb-40 px-6 flex flex-col items-center justify-center overflow-hidden border-b border-slate-200/60">
+        
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute -top-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-red-100/60 blur-[100px] animate-pulse duration-10000" />
+          <div className="absolute top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-rose-50/50 blur-[120px]" />
+          <div className="absolute -bottom-[20%] right-[20%] w-[50%] h-[50%] rounded-full bg-orange-50/50 blur-[100px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+        </div>
 
-        {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-
-        {/* Floating Particle / Star Decorations */}
-        {floatingParticles.map((p) => (
-          <motion.div
-            key={p.id}
-            className={`absolute pointer-events-none select-none text-white/35 font-light ${p.size}`}
-            style={{ top: p.top, left: p.left }}
-            animate={{
-              x: p.xRange,
-              y: p.yRange,
-              opacity: [0.2, 0.75, 0.2],
-              scale: [0.9, 1.2, 0.9],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: p.delay,
-            }}
-          >
-            {p.char}
-          </motion.div>
-        ))}
-
-        {/* Hero Content Container */}
         <motion.div
           variants={heroContainerVariants}
           initial="hidden"
           animate="visible"
-          className="relative z-10 max-w-4xl w-full text-center space-y-6 md:space-y-8"
+          className="relative z-10 flex flex-col items-center text-center max-w-4xl"
         >
-          {/* Glowing Badge */}
-          <motion.div variants={heroItemVariants} className="flex justify-center">
-            <div className="relative group inline-block">
-              {/* Pulsing ambient glow */}
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-white/70 via-red-200/50 to-white/70 blur-md opacity-75 group-hover:opacity-100 transition duration-500 animate-pulse" />
-
-              {/* Glass badge pill */}
-              <div className="relative inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white shadow-[0_0_25px_rgba(255,255,255,0.45)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] transition-all">
-                <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white drop-shadow-sm">
-                  Student Resource Platform
-                </span>
-                <span className="text-white text-xs">★</span>
-              </div>
-            </div>
+          <motion.div variants={heroItemVariants} className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-[#E60000] font-semibold text-xs tracking-widest uppercase shadow-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E60000]"></span>
+            </span>
+            Official CUSAT Platform
           </motion.div>
 
-          {/* Large Bold Title */}
           <motion.h1
             variants={heroItemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.15] drop-shadow-md"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5rem] font-extrabold tracking-tight mb-6 leading-[1.05] text-slate-900"
           >
-            Empowering Polymer Students
+            SFI <span className="text-[#E60000] drop-shadow-sm">Polymer</span>
+            <br />
+            Subcommittee
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="text-lg sm:text-xl md:text-2xl text-red-50 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-sm"
+            className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mb-10 font-medium leading-relaxed"
           >
-            Department of Polymer Science & Rubber Technology, CUSAT. Access question banks, comprehensive syllabi, official circulars, and career pathways all in one unified space.
+            Empowering students of Polymer Science and Rubber Technology (PSRT) 
+            with premier academic resources, placement insights, and a unified voice.
           </motion.p>
 
-          {/* Call-to-action buttons */}
-          <motion.div
-            variants={heroItemVariants}
-            className="flex flex-wrap items-center justify-center gap-4 pt-2"
-          >
+          <motion.div variants={heroItemVariants} className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/academics"
-              className="bg-white text-[#E60000] hover:bg-red-50 hover:text-[#CC0000] font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-sm sm:text-base"
+              className="px-8 py-3.5 bg-[#E60000] text-white text-sm font-bold rounded-full shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 hover:bg-[#CC0000] transition-all duration-300 ring-2 ring-transparent focus:ring-red-400"
             >
-              Browse Academics
+              Explore Academics
             </Link>
             <Link
-              href="/notifications"
-              className="bg-white/15 hover:bg-white/25 active:bg-white/30 border border-white/40 text-white font-semibold px-7 py-3.5 rounded-xl backdrop-blur-md transition-all duration-200 shadow-md text-sm sm:text-base"
+              href="/placements"
+              className="px-8 py-3.5 bg-white text-slate-700 text-sm font-bold rounded-full shadow-sm border border-slate-200 hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5 hover:text-slate-900 transition-all duration-300 ring-2 ring-transparent focus:ring-slate-200"
             >
-              Latest Notifications
+              Placement Data
             </Link>
           </motion.div>
         </motion.div>
       </section>
 
-      
+      <section className="w-full bg-slate-50 py-20 sm:py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
+              Department Resources
+            </h2>
+            <p className="text-slate-500 font-medium max-w-xl mx-auto">
+              Everything you need to succeed in B.Tech & M.Tech PSRT, centralized in one open-access platform.
+            </p>
+          </div>
 
-      {/* ----------------- Navigation Cards Grid ----------------- */}
-      <section className="max-w-6xl w-full px-6 py-16 sm:py-20 relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Explore Student Resources
-          </h2>
-          <p className="text-slate-600 mt-2 max-w-xl mx-auto text-sm sm:text-base">
-            Everything curated to assist PSRT students throughout their academic and professional journey.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {cardsData.map((card) => {
-            if (card.isLink && card.href) {
-              return (
-                <Link
-                  key={card.title}
-                  href={card.href}
-                  className="group block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E60000] rounded-2xl"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="h-full bg-white/80 backdrop-blur-sm rounded-2xl shadow hover:shadow-xl border border-slate-200/80 hover:border-[#E60000]/40 p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {cardsData.map((card) => {
+              if (card.isLink && card.href) {
+                return (
+                  <Link
+                    key={card.title}
+                    href={card.href}
+                    className="group block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E60000] rounded-2xl"
                   >
-                    {/* Top gradient accent line on hover */}
-                    <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#E60000] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      className="h-full bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200 hover:border-[#E60000]/40 p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#E60000] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div>
+                        <div className="flex items-center justify-between mb-5">
+                          <div className="w-14 h-14 rounded-2xl bg-red-50 text-3xl flex items-center justify-center shadow-sm border border-red-100 group-hover:bg-red-100 group-hover:scale-110 transition-all duration-300">
+                            <span role="img" aria-label={card.title}>
+                              {card.emoji}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full group-hover:bg-red-50 group-hover:text-[#E60000] group-hover:border-red-200 transition-colors">
+                            {card.badge}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-[#E60000] transition-colors flex items-center gap-1.5">
+                          {card.title}
+                          <svg className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[#E60000]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </h3>
+                        <p className="text-sm text-slate-600 leading-relaxed group-hover:text-slate-700">
+                          {card.desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </Link>
+                );
+              }
 
+              return (
+                <div key={card.title} className="group block h-full">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-br from-[#E60000] to-[#CC0000] rounded-2xl shadow-md hover:shadow-xl p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden"
+                  >
                     <div>
                       <div className="flex items-center justify-between mb-5">
-                        <div className="w-14 h-14 rounded-2xl bg-red-50 text-3xl flex items-center justify-center shadow-xs border border-red-100 group-hover:bg-red-100/70 group-hover:scale-110 transition-all duration-300">
+                        <div className="w-14 h-14 rounded-2xl bg-white/20 text-3xl flex items-center justify-center shadow-sm border border-white/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 backdrop-blur-sm">
                           <span role="img" aria-label={card.title}>
                             {card.emoji}
                           </span>
                         </div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-[#E60000] bg-red-50 px-3 py-1 rounded-full border border-red-100">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#E60000] bg-white px-3 py-1 rounded-full shadow-sm">
                           {card.badge}
                         </span>
                       </div>
-
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#E60000] transition-colors mb-2.5">
+                      <h3 className="text-xl font-bold mb-3 text-white flex items-center gap-1.5">
                         {card.title}
                       </h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
+                      <p className="text-sm text-white/90 leading-relaxed font-medium">
                         {card.desc}
                       </p>
                     </div>
-
-                    {/* Bottom action bar with sliding 'Explore →' text */}
-                    <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs font-medium text-slate-400 group-hover:text-slate-600 transition-colors">
-                        Resource
-                      </span>
-                      <div className="flex items-center gap-1 font-bold text-sm text-[#E60000] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        <span>Explore →</span>
-                      </div>
-                    </div>
                   </motion.div>
-                </Link>
+                </div>
               );
-            }
-
-            // Card 6: "Join the Movement" (not a link)
-            return (
-              <div key={card.title} className="group block h-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="h-full bg-white/80 backdrop-blur-sm rounded-2xl shadow hover:shadow-xl border border-red-200/90 hover:border-[#E60000] p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden bg-gradient-to-br from-white/90 via-red-50/40 to-red-100/30"
-                >
-                  {/* SFI Red highlight bar */}
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#E60000] via-[#CC0000] to-[#990000]" />
-
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-14 h-14 rounded-2xl bg-red-100/90 text-3xl flex items-center justify-center shadow-xs border border-red-200 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                        <span role="img" aria-label={card.title}>
-                          {card.emoji}
-                        </span>
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-white bg-[#E60000] px-3 py-1 rounded-full shadow-xs">
-                        {card.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#E60000] transition-colors mb-2.5">
-                      {card.title}
-                    </h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
-                      {card.desc}
-                    </p>
-                  </div>
-
-                  {/* Bottom bar with sliding 'Explore →' text */}
-                  <div className="mt-8 pt-4 border-t border-red-100 flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#E60000] flex items-center gap-1">
-                      ★ SFI CUSAT
-                    </span>
-                    <div className="flex items-center gap-1 font-bold text-sm text-[#E60000] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                      <span>Explore →</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            );
-          })}
+            })}
+          </div>
         </div>
       </section>
-
-      {/* ----------------- Community / Contribution Section ----------------- */}
-      <section className="max-w-6xl w-full px-6 pb-20 pt-2">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="rounded-3xl bg-gradient-to-r from-[#990000] via-[#CC0000] to-[#E60000] text-white p-8 sm:p-10 md:p-12 shadow-xl relative overflow-hidden"
-        >
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 bg-white/15 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-sm border border-white/25">
-                <span>★</span> SFI PSRT Unit
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                Have study materials or notes to contribute?
-              </h2>
-              <p className="text-red-100 text-sm sm:text-base max-w-xl">
-                Help your fellow classmates by sharing previous year questions, lecture notes, or lab guides with the subcommittee.
-              </p>
+      
+      <footer className="w-full bg-white border-t border-slate-200 py-12 px-6">
+         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 font-medium">
+            <p>© {new Date().getFullYear()} SFI Polymer Subcommittee, CUSAT. All rights reserved.</p>
+            <div className="flex gap-4">
+               <span className="text-[#E60000] font-bold">Inquilab Zindabad!</span>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <Link
-                href="/academics"
-                className="text-center bg-white text-[#E60000] hover:bg-red-50 hover:text-[#CC0000] font-bold px-6 py-3.5 rounded-xl shadow-md transition-all hover:scale-105 active:scale-100 text-sm"
-              >
-                Access Academics
-              </Link>
-              <Link
-                href="/notifications"
-                className="text-center bg-white/15 hover:bg-white/25 border border-white/35 text-white font-semibold px-6 py-3.5 rounded-xl transition-all text-sm backdrop-blur-md"
-              >
-                View Circulars
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+         </div>
+      </footer>
     </main>
   );
 }

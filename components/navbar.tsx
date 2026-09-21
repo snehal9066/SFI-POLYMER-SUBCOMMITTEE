@@ -11,7 +11,7 @@ export function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="bg-[#E60000] text-white shadow-md relative z-50">
+    <nav className="sticky top-0 bg-[#E60000]/95 backdrop-blur-xl text-white shadow-lg border-b border-red-500/30 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
