@@ -232,12 +232,14 @@ export default function FresherGuidePage() {
   const [openSections, setOpenSections] = useState<number[]>([1]); // First section open by default
   const [checkedItems, setCheckedItems] = useState<number[]>([1]); // First item checked by default
   const [pageContent, setPageContent] = useState("");
+  const [structuredData, setStructuredData] = useState<any>(null);
 
   useEffect(() => {
     fetch("/api/content?slug=fresher-guide")
       .then(res => res.json())
       .then(data => {
         if (data.content) setPageContent(data.content);
+        if (data.data) setStructuredData(data.data);
       })
       .catch(err => console.error("Failed to load content", err));
   }, []);
@@ -254,16 +256,20 @@ export default function FresherGuidePage() {
     );
   };
 
+  const checklistData = structuredData?.checklist || INITIAL_CHECKLIST;
+  const accordionData = structuredData?.accordion || ACCORDION_DATA;
+  const tipsData = structuredData?.tips || PRO_TIPS;
+
   const toggleAllAccordions = () => {
-    if (openSections.length === ACCORDION_DATA.length) {
+    if (openSections.length === accordionData.length) {
       setOpenSections([]);
     } else {
-      setOpenSections(ACCORDION_DATA.map((item) => item.id));
+      setOpenSections(accordionData.map((item: any) => item.id));
     }
   };
 
   const progressPercentage = Math.round(
-    (checkedItems.length / INITIAL_CHECKLIST.length) * 100
+    (checkedItems.length / checklistData.length) * 100
   );
 
   return (
@@ -408,7 +414,7 @@ export default function FresherGuidePage() {
               <div className="flex justify-between items-center text-xs font-bold mb-1.5">
                 <span className="text-slate-600">Completion Status</span>
                 <span className="text-[#E60000]">
-                  {checkedItems.length} of {INITIAL_CHECKLIST.length} ({progressPercentage}%)
+                  {checkedItems.length} of {checklistData.length} ({progressPercentage}%)
                 </span>
               </div>
               <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
@@ -419,7 +425,7 @@ export default function FresherGuidePage() {
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
-              {checkedItems.length === INITIAL_CHECKLIST.length && (
+              {checkedItems.length === checklistData.length && (
                 <motion.p
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -447,7 +453,7 @@ export default function FresherGuidePage() {
               },
             }}
           >
-            {INITIAL_CHECKLIST.map((item, index) => {
+            {checklistData.map((item, index) => {
               const isChecked = checkedItems.includes(item.id);
               return (
                 <motion.div
@@ -556,14 +562,14 @@ export default function FresherGuidePage() {
               onClick={toggleAllAccordions}
               className="text-xs font-bold text-[#E60000] hover:text-[#CC0000] bg-white hover:bg-red-50 px-4 py-2 rounded-xl border border-red-200 transition-colors shadow-xs w-fit cursor-pointer"
             >
-              {openSections.length === ACCORDION_DATA.length
+              {openSections.length === accordionData.length
                 ? "Collapse All"
                 : "Expand All"}
             </button>
           </div>
 
           <div className="space-y-4">
-            {ACCORDION_DATA.map((item) => {
+            {accordionData.map((item) => {
               const isOpen = openSections.includes(item.id);
 
               return (
@@ -701,7 +707,7 @@ export default function FresherGuidePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PRO_TIPS.map((tip, idx) => (
+            {tipsData.map((tip, idx) => (
               <motion.div
                 key={idx}
                 whileHover={{ y: -5 }}

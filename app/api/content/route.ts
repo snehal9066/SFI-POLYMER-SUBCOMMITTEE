@@ -25,6 +25,19 @@ export async function GET(req: Request) {
           universities: ["University of Akron (USA)", "University of Massachusetts Amherst (USA)", "Max Planck Institute (Germany)", "Kyushu University (Japan)"],
           exams: ["GATE (Engineering Sciences)", "CSIR NET (Chemical Sciences)", "GRE", "TOEFL / IELTS"]
        };
+    } else if (slug === "fresher-guide") {
+       defaultData = {
+          checklist: [
+             { "id": 1, "title": "Get your ID card", "desc": "Issued by the university office; vital for library access, bus concessions, and semester exams." },
+             { "id": 2, "title": "Join department WhatsApp", "desc": "Connect with your batchmates and official SFI channel for timely circulars, notes, and updates." }
+          ],
+          tips: [
+             { "icon": "💡", "tag": "High Yield", "title": "Master the Lab Routine Early", "text": "Polymer practicals and vivas carry high weightage. Complete your rough records on the same day and secure faculty signatures promptly. Don't let lab backlogs snowball." }
+          ],
+          accordion: [
+             { "id": 1, "icon": "📍", "title": "Department Location", "shortDesc": "PSRT near main library", "content": { "badge": "Campus Landmark", "points": [ { "label": "Prime Location", "detail": "Located behind the Central Library." } ], "note": "Tip: Arrive from main gate." } }
+          ]
+       };
     }
 
     return NextResponse.json({ content: content?.body || "", data: content?.data || defaultData });
