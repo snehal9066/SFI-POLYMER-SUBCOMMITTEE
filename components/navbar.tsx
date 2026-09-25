@@ -25,33 +25,33 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex gap-6 items-center font-medium text-sm">
-          <Link href="/" className="hover:text-red-200 transition-colors">Home</Link>
-          <Link href="/academics" className="hover:text-red-200 transition-colors">Academics</Link>
-          <Link href="/notifications" className="hover:text-red-200 transition-colors">Notifications</Link>
-          <Link href="/higher-studies" className="hover:text-red-200 transition-colors">Higher Studies</Link>
-          <Link href="/placements" className="hover:text-red-200 transition-colors">Placements</Link>
-          <Link href="/grievances" className="hover:text-red-200 transition-colors">Help/Grievances</Link>
-          <Link href="/login" className="bg-white text-[#E60000] px-4 py-1.5 rounded-full hover:bg-slate-100 transition-colors shadow-sm">
+        <div className="hidden lg:flex gap-4 xl:gap-6 items-center font-medium text-sm">
+          <Link href="/" className="hover:text-red-200 transition-colors whitespace-nowrap">Home</Link>
+          <Link href="/academics" className="hover:text-red-200 transition-colors whitespace-nowrap">Academics</Link>
+          <Link href="/notifications" className="hover:text-red-200 transition-colors whitespace-nowrap">Notifications</Link>
+          <Link href="/higher-studies" className="hover:text-red-200 transition-colors whitespace-nowrap">Higher Studies</Link>
+          <Link href="/placements" className="hover:text-red-200 transition-colors whitespace-nowrap">Placements</Link>
+          <Link href="/grievances" className="hover:text-red-200 transition-colors whitespace-nowrap">Grievances</Link>
+          <Link href="/login" className="bg-white text-[#E60000] px-4 py-1.5 rounded-full hover:bg-slate-100 transition-colors shadow-sm whitespace-nowrap">
             Admin
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden p-2 text-white hover:bg-red-700 rounded-md transition-colors" onClick={toggleMenu}>
+        <button className="lg:hidden p-2 text-white hover:bg-red-700 rounded-md transition-colors" onClick={toggleMenu}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-[#E60000] border-t border-red-700 shadow-xl py-4 px-6 flex flex-col gap-4">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#E60000] border-t border-red-700 shadow-xl py-4 px-6 flex flex-col gap-4">
           <Link href="/" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Home</Link>
           <Link href="/academics" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Academics</Link>
           <Link href="/notifications" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Notifications</Link>
           <Link href="/higher-studies" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Higher Studies</Link>
           <Link href="/placements" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Placements</Link>
-          <Link href="/grievances" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Help/Grievances</Link>
+          <Link href="/grievances" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Grievances</Link>
           <div className="pt-2 border-t border-red-700">
             <Link href="/login" onClick={toggleMenu} className="inline-block bg-white text-[#E60000] px-5 py-2 rounded-full font-medium shadow-sm">
               Admin Login
