@@ -46,3 +46,26 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: 'Failed to update grievance' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing grievance ID" }, { status: 400 });
+    }
+
+    await prisma.grievance.delete({ where: { id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting grievance:", error);
+    return NextResponse.json({ error: "Failed to delete grievance" }, { status: 500 });
+  }
+}

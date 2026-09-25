@@ -219,6 +219,20 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteGrievance = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this grievance? This action cannot be undone.")) return;
+    try {
+      const res = await fetch(`/api/admin/grievances?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setGrievancesList(grievancesList.filter(g => g.id !== id));
+      } else {
+        alert("Failed to delete grievance.");
+      }
+    } catch (e) {
+      alert("Error deleting grievance.");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 p-4 sm:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -559,6 +573,14 @@ export default function AdminDashboard() {
                           className="px-3 py-1.5 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-md hover:bg-green-100"
                         >
                           Mark Resolved
+                        </button>
+                      )}
+                      {(g.status === "REVIEWED" || g.status === "RESOLVED") && (
+                        <button 
+                          onClick={() => handleDeleteGrievance(g.id)}
+                          className="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 ml-auto"
+                        >
+                          Delete
                         </button>
                       )}
                     </div>
