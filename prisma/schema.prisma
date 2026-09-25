@@ -50,3 +50,14 @@ model PageContent {
   data      Json?
   updatedAt DateTime @updatedAt
 }
+
+model Grievance {
+  id          String   @id @default(cuid())
+  studentName String?
+  semester    String
+  subject     String?
+  description String
+  status      String   @default("PENDING") // PENDING, REVIEWED, RESOLVED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

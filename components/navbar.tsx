@@ -31,6 +31,7 @@ export function Navbar() {
           <Link href="/notifications" className="hover:text-red-200 transition-colors">Notifications</Link>
           <Link href="/higher-studies" className="hover:text-red-200 transition-colors">Higher Studies</Link>
           <Link href="/placements" className="hover:text-red-200 transition-colors">Placements</Link>
+          <Link href="/grievances" className="hover:text-red-200 transition-colors">Help/Grievances</Link>
           <Link href="/login" className="bg-white text-[#E60000] px-4 py-1.5 rounded-full hover:bg-slate-100 transition-colors shadow-sm">
             Admin
           </Link>
@@ -50,6 +51,7 @@ export function Navbar() {
           <Link href="/notifications" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Notifications</Link>
           <Link href="/higher-studies" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Higher Studies</Link>
           <Link href="/placements" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Placements</Link>
+          <Link href="/grievances" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Help/Grievances</Link>
           <div className="pt-2 border-t border-red-700">
             <Link href="/login" onClick={toggleMenu} className="inline-block bg-white text-[#E60000] px-5 py-2 rounded-full font-medium shadow-sm">
               Admin Login
