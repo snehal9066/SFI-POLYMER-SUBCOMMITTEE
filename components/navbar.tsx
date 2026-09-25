@@ -45,15 +45,15 @@ export function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-[#E60000] border-t border-red-700 shadow-xl py-4 px-6 flex flex-col gap-4">
-          <Link href="/" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Home</Link>
-          <Link href="/academics" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Academics</Link>
-          <Link href="/notifications" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Notifications</Link>
-          <Link href="/higher-studies" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Higher Studies</Link>
-          <Link href="/placements" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Placements</Link>
-          <Link href="/grievances" onClick={toggleMenu} className="block font-medium hover:text-red-200 transition-colors">Grievances</Link>
-          <div className="pt-2 border-t border-red-700">
-            <Link href="/login" onClick={toggleMenu} className="inline-block bg-white text-[#E60000] px-5 py-2 rounded-full font-medium shadow-sm">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-2xl py-4 px-4 flex flex-col gap-1 rounded-b-2xl text-slate-800">
+          <Link href="/" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Home</Link>
+          <Link href="/academics" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Academics</Link>
+          <Link href="/notifications" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Notifications</Link>
+          <Link href="/higher-studies" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Higher Studies</Link>
+          <Link href="/placements" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Placements</Link>
+          <Link href="/grievances" onClick={toggleMenu} className="block font-semibold text-slate-700 hover:text-[#E60000] hover:bg-red-50 p-3 rounded-xl transition-all">Grievances</Link>
+          <div className="pt-4 mt-2 border-t border-slate-100 flex">
+            <Link href="/login" onClick={toggleMenu} className="w-full text-center bg-[#E60000] text-white px-5 py-3 rounded-xl font-bold shadow-md hover:bg-[#CC0000] transition-colors">
               Admin Login
             </Link>
           </div>

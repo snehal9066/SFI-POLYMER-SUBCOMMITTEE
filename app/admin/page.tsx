@@ -35,6 +35,7 @@ export default function AdminDashboard() {
 
   const [filesList, setFilesList] = useState<any[]>([]);
   const [notificationsList, setNotificationsList] = useState<any[]>([]);
+  const [grievancesList, setGrievancesList] = useState<any[]>([]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -61,6 +62,11 @@ export default function AdminDashboard() {
       fetch("/api/notifications")
         .then(res => res.json())
         .then(data => setNotificationsList(Array.isArray(data) ? data : []))
+        .catch(err => console.error(err));
+    } else if (activeTab === "GRIEVANCES") {
+      fetch("/api/admin/grievances")
+        .then(res => res.json())
+        .then(data => setGrievancesList(data.grievances || []))
         .catch(err => console.error(err));
     }
   }, [activeTab, contentSlug]);
@@ -196,18 +202,35 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleUpdateGrievanceStatus = async (id: string, status: string) => {
+    try {
+      const res = await fetch(`/api/admin/grievances`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status })
+      });
+      if (res.ok) {
+        setGrievancesList(grievancesList.map(g => g.id === id ? { ...g, status } : g));
+      } else {
+        alert("Failed to update grievance status.");
+      }
+    } catch (e) {
+      alert("Error updating status.");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 p-4 sm:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
         <header className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#E60000]">
           <div>
             <h1 className="text-2xl font-bold">Admin CMS</h1>
-            <p className="text-slate-500">Manage resources, notifications, and site content.</p>
+            <p className="text-slate-500">Manage resources, notifications, site content, and grievances.</p>
           </div>
         </header>
 
         <div className="flex space-x-2 bg-white p-2 rounded-lg shadow-sm border border-slate-200 overflow-x-auto">
-          {["RESOURCES", "NOTIFICATIONS", "CONTENT"].map(tab => (
+          {["RESOURCES", "NOTIFICATIONS", "CONTENT", "GRIEVANCES"].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -478,6 +501,71 @@ export default function AdminDashboard() {
                 {isSavingContent ? "Saving..." : "Save Content"}
               </button>
             </form>
+          </section>
+        )}
+
+        {activeTab === "GRIEVANCES" && (
+          <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 className="text-xl font-bold mb-6 text-[#E60000]">Student Grievances</h2>
+            
+            {grievancesList.length === 0 ? (
+              <p className="text-sm text-slate-500">No grievances submitted yet.</p>
+            ) : (
+              <div className="space-y-4">
+                {grievancesList.map((g) => (
+                  <div key={g.id} className="border border-slate-200 rounded-lg p-5 bg-slate-50 shadow-sm">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="font-semibold text-lg text-slate-800">
+                          {g.studentName || "Anonymous Student"}
+                        </h3>
+                        <p className="text-sm text-slate-500">
+                          {g.semester} {g.subject ? `· ${g.subject}` : ""} · {new Date(g.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                        g.status === "PENDING" ? "bg-yellow-100 text-yellow-800 border-yellow-200" :
+                        g.status === "REVIEWED" ? "bg-blue-100 text-blue-800 border-blue-200" :
+                        "bg-green-100 text-green-800 border-green-200"
+                      }`}>
+                        {g.status}
+                      </span>
+                    </div>
+                    
+                    <div className="bg-white p-4 rounded-md border border-slate-200 mb-4 text-slate-700 text-sm whitespace-pre-wrap">
+                      {g.description}
+                    </div>
+
+                    <div className="flex gap-2 justify-end pt-2 border-t border-slate-200">
+                      {g.status !== "PENDING" && (
+                        <button 
+                          onClick={() => handleUpdateGrievanceStatus(g.id, "PENDING")}
+                          className="px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md hover:bg-slate-200"
+                        >
+                          Mark Pending
+                        </button>
+                      )}
+                      {g.status !== "REVIEWED" && (
+                        <button 
+                          onClick={() => handleUpdateGrievanceStatus(g.id, "REVIEWED")}
+                          className="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100"
+                        >
+                          Mark Reviewed
+                        </button>
+                      )}
+                      {g.status !== "RESOLVED" && (
+                        <button 
+                          onClick={() => handleUpdateGrievanceStatus(g.id, "RESOLVED")}
+                          className="px-3 py-1.5 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-md hover:bg-green-100"
+                        >
+                          Mark Resolved
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         )}
 
